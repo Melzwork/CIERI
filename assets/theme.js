@@ -725,3 +725,27 @@
 
   // Initial calculation
   recalcCart();
+/* ===== Customer Care: sidebar tabs + accordion (restored) ===== */
+document.querySelectorAll('.sidebar-link').forEach(function (link) {
+  link.addEventListener('click', function () {
+    var target = link.dataset.tab;
+    if (!target) return;
+    document.querySelectorAll('.sidebar-link').forEach(function (l) { l.classList.remove('active'); });
+    link.classList.add('active');
+    document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+    var panel = document.querySelector('[data-panel="' + target + '"]');
+    if (panel) panel.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+if (window.location.hash) {
+  var h = window.location.hash.substring(1);
+  var tl = document.querySelector('.sidebar-link[data-tab="' + h + '"]');
+  if (tl) tl.click();
+}
+document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
+  trigger.addEventListener('click', function () {
+    var item = trigger.closest('.accordion-item');
+    if (item) item.classList.toggle('open');
+  });
+});

@@ -1,7 +1,10 @@
 <div class="legal-page">
-  <h1 class="legal-title">Terms of Service</h1>
-  <p class="legal-meta">Last updated 15 June 2026</p>
+  <h1 class="legal-title">{{ page.title | default: 'Terms of Service' }}</h1>
   <div class="legal-body">
+  {% if page.content != blank %}
+    {{ page.content }}
+  {% else %}
+  <p class="legal-meta">Last updated 15 June 2026</p>
 <h2>OVERVIEW</h2>
         <p>Welcome! The terms "we", "us" and "our" refer to CIERI. CIERI operates this store and website, including all related information, content, features, tools, products and services in order to provide you, the customer, with a curated shopping experience (the "Services"). CIERI is powered by Shopify, which enables us to provide the Services to you.</p>
         <p>The below terms and conditions, together with any policies referenced herein (these "Terms of Service" or "Terms") describe your rights and responsibilities when you use the Services.</p>
@@ -88,6 +91,7 @@
         <p>Questions about the Terms of Service should be sent to us at Hello@cieristudio.com.</p>
         <p>Our contact information is posted below:</p>
         <p>Hello@cieristudio.com</p>
+  {% endif %}
   </div>
 </div>
 

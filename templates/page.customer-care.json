@@ -1,7 +1,227 @@
 {
   "sections": {
     "main": {
-      "type": "main-page-care"
+      "type": "main-page-care",
+      "blocks": {
+        "faq1": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "What size should I order?",
+            "body": "<p>Our pieces are designed with a relaxed, considered fit. For your closest match, refer to the size chart under Sizing &amp; Care. Each product page also lists the height and size worn by the model in our editorial imagery, which can be a helpful reference.</p>"
+          }
+        },
+        "faq2": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "How do I track my order?",
+            "body": "<p>When your order is dispatched, you'll receive an email from Hello@cieristudio.com with your tracking number and link. Tracking is usually live within 24-48 hours of that email.</p>"
+          }
+        },
+        "faq3": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "When will my order ship?",
+            "body": "<p>In-stock orders are dispatched within 1-3 business days. You'll receive a confirmation email with tracking once your order is on its way. Pre-order and made-to-order pieces ship on the date listed on the product page.</p>"
+          }
+        },
+        "faq4": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "Do you ship internationally?",
+            "body": "<p>Yes, we ship worldwide. Shipping rates are calculated at checkout. See Shipping &amp; Delivery for delivery times by region.</p>"
+          }
+        },
+        "faq5": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "Do I have to purchase in USD?",
+            "body": "<p>No. Choose your currency at the top right of the screen - you can shop in USD, CAD, AUD, GBP and EUR.</p>"
+          }
+        },
+        "faq6": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "Can I return or exchange an item?",
+            "body": "<p>Returns are accepted within 14 days of delivery, provided pieces are unworn, unwashed, and have their original tags attached. Returns are refunded as store credit, which never expires. We don't offer direct exchanges - simply return your piece for credit and place a new order. Return shipping is arranged and paid by you. Discounted items and gift cards are final sale. Full details are under Returns.</p>"
+          }
+        },
+        "faq7": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "What if my order arrives damaged or faulty?",
+            "body": "<p>While we do our best to ensure this never happens, if you receive a damaged piece or a manufacturing fault occurs, contact us immediately at Hello@cieristudio.com and we'll do our best to resolve it. After 45 days from receiving the product, any damage is considered wear and tear rather than a manufacturing fault.</p>"
+          }
+        },
+        "faq8": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "Received something you didn't order?",
+            "body": "<p>If you received a product different from the one you ordered, contact us at Hello@cieristudio.com and we'll get you the pieces you ordered.</p>"
+          }
+        },
+        "faq9": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "How do I care for my CIERI pieces?",
+            "body": "<p>Our pieces are made to be lived in, which means cared for gently. As a general rule: machine wash cold with like colours, and lay flat out of direct sunlight to dry. See the full care guide under Sizing &amp; Care, or the label sewn into each garment.</p>"
+          }
+        },
+        "faq10": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "Can I cancel or change my order?",
+            "body": "<p>Once an order is placed, we're unable to make changes or cancellations, as pieces are prepared for dispatch quickly. Please review your size, shipping address, and order details carefully before completing checkout. If something is wrong, reach us as soon as possible and we'll help where we can.</p>"
+          }
+        },
+        "faq11": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "What if the product I want is sold out?",
+            "body": "<p>Subscribe on the product page to be notified when the item is restocked.</p>"
+          }
+        },
+        "faq12": {
+          "type": "accordion",
+          "settings": {
+            "panel": "faq",
+            "heading": "Have a question we haven't answered?",
+            "body": "<p>Don't hesitate to reach out to us or email at Hello@cieristudio.com for any additional questions and concerns.</p>"
+          }
+        },
+        "ship1": {
+          "type": "accordion",
+          "settings": {
+            "panel": "shipping",
+            "heading": "Processing time",
+            "body": "<p>Orders are processed within 1-3 business days. During sale periods and holidays, processing may take a little longer.</p>"
+          }
+        },
+        "ship2": {
+          "type": "accordion",
+          "settings": {
+            "panel": "shipping",
+            "heading": "Shipping rates &amp; delivery",
+            "body": "<p>Shipping rates are calculated at checkout based on your destination. Estimated delivery times after dispatch:</p><ul><li><strong>Southeast Asia (Singapore, Malaysia, Thailand, the Philippines):</strong> 5-7 business days</li><li><strong>Europe, the UK, North America, and Australia:</strong> 10-15 business days</li></ul><p>Delivery estimates are not guaranteed, as transit can be affected by customs and the carrier.</p>"
+          }
+        },
+        "ship3": {
+          "type": "accordion",
+          "settings": {
+            "panel": "shipping",
+            "heading": "Duties &amp; taxes",
+            "body": "<p>International orders may be subject to import duties and taxes set by your country. These are not included at checkout and are the responsibility of the customer, usually collected by the carrier on delivery.</p>"
+          }
+        },
+        "ship4": {
+          "type": "accordion",
+          "settings": {
+            "panel": "shipping",
+            "heading": "Lost, stolen, or delayed packages",
+            "body": "<p>Once your order is handed to the carrier, CIERI cannot take responsibility for parcels that are lost, stolen, delayed, or delivered to an incorrect address entered at checkout. If your parcel is missing, check with your neighbours, building reception, and any safe spots near your door, then contact us and we will do our best to help.</p>"
+          }
+        },
+        "ret1": {
+          "type": "accordion",
+          "settings": {
+            "panel": "returns",
+            "heading": "Our returns policy",
+            "body": "<p>You have 14 days from the date your order is delivered to request a return. To be eligible, items must be returned in their original condition:</p><ul><li>New, unworn, unwashed, and undamaged</li><li>Free of odours, stains, makeup, deodorant, and pet hair</li><li>With all original tags, hygiene stickers, and packaging attached and intact</li></ul><p>We inspect every return and reserve the right to decline any item that does not meet these requirements. Sale and discounted items, and gift cards, are final sale and cannot be returned.</p>"
+          }
+        },
+        "ret2": {
+          "type": "accordion",
+          "settings": {
+            "panel": "returns",
+            "heading": "Store credit",
+            "body": "<p>All approved returns are refunded as store credit, issued for the full value of the returned item. Store credit does not expire and can be used on any future order. We do not offer refunds to the original payment method.</p>"
+          }
+        },
+        "ret3": {
+          "type": "accordion",
+          "settings": {
+            "panel": "returns",
+            "heading": "How to start a return",
+            "body": "<p>Email us at Hello@cieristudio.com with your order number and the item(s) you would like to return. We'll confirm your return and share the return address. Please wait for our confirmation before sending anything back, as items returned without prior authorisation cannot be accepted.</p>"
+          }
+        },
+        "ret4": {
+          "type": "accordion",
+          "settings": {
+            "panel": "returns",
+            "heading": "Return shipping",
+            "body": "<p>Return shipping is arranged and paid by the customer. We recommend a tracked service, as we cannot take responsibility for returns lost in transit. Original shipping charges are non-refundable. For international returns, any customs duties or taxes incurred are the customer's responsibility. Items from different orders must be returned separately, each under its own return confirmation.</p>"
+          }
+        },
+        "ret5": {
+          "type": "accordion",
+          "settings": {
+            "panel": "returns",
+            "heading": "Exchanges",
+            "body": "<p>We do not offer direct exchanges. To change a size or colour, return your item for store credit and place a new order for the piece you would like.</p>"
+          }
+        },
+        "ret6": {
+          "type": "accordion",
+          "settings": {
+            "panel": "returns",
+            "heading": "Changes &amp; cancellations",
+            "body": "<p>Once an order is placed we begin processing it right away and cannot make changes or cancellations. Please review your size, items, and address carefully before checking out.</p>"
+          }
+        },
+        "ret7": {
+          "type": "accordion",
+          "settings": {
+            "panel": "returns",
+            "heading": "Fair use of returns",
+            "body": "<p>Our return policy is offered in good faith. We reserve the right to limit or decline returns, or to restrict future orders, for accounts that show a pattern of excessive returns of non-faulty items.</p>"
+          }
+        },
+        "contact1": {
+          "type": "richtext",
+          "settings": {
+            "panel": "contact",
+            "heading": "Customer care",
+            "body": "<p>Hello@cieristudio.com<br>Monday to Friday, 09:00-17:00 AEST</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq1",
+        "faq2",
+        "faq3",
+        "faq4",
+        "faq5",
+        "faq6",
+        "faq7",
+        "faq8",
+        "faq9",
+        "faq10",
+        "faq11",
+        "faq12",
+        "ship1",
+        "ship2",
+        "ship3",
+        "ship4",
+        "ret1",
+        "ret2",
+        "ret3",
+        "ret4",
+        "ret5",
+        "ret6",
+        "ret7",
+        "contact1"
+      ]
     }
   },
   "order": [

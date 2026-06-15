@@ -1,118 +1,257 @@
-
-
-
-
-
-
 <section class="hero" style="padding:0">
-  <div class="hero-image"></div>
+  <div class="hero-image"{% if section.settings.hero_image != blank %} style="background-image:url({{ section.settings.hero_image | image_url: width: 2400 }});background-size:cover;background-position:center;"{% endif %}></div>
   <div class="hero-content">
-    <h1>The <em>quiet</em><br>edition</h1>
-    <div class="hero-sub">Spring · Summer 2026</div>
-    <a href="#" class="btn-line">Discover the collection</a>
+    <h1>{{ section.settings.hero_heading }}</h1>
+    {% if section.settings.hero_sub != blank %}<div class="hero-sub">{{ section.settings.hero_sub }}</div>{% endif %}
+    {% if section.settings.hero_cta_label != blank %}<a href="{{ section.settings.hero_cta_link | default: '#' }}" class="btn-line">{{ section.settings.hero_cta_label }}</a>{% endif %}
   </div>
 </section>
 
 <section class="lookbook">
   <div class="lookbook-grid reveal-stagger">
-    <a href="/collections/tops" class="look-card">
-      <div class="look-image look-1"></div>
-      <h3 class="look-title">Tops &amp; Tanks</h3>
-    </a>
-    <a href="/collections/bottoms" class="look-card">
-      <div class="look-image look-2"></div>
-      <h3 class="look-title">Bottoms</h3>
-    </a>
-    <a href="/collections/dresses" class="look-card">
-      <div class="look-image look-3"></div>
-      <h3 class="look-title">Dresses</h3>
-    </a>
+    {% for i in (1..3) %}
+      {% assign img = section.settings['look' | append: i | append: '_image'] %}
+      {% assign ttl = section.settings['look' | append: i | append: '_title'] %}
+      {% assign lnk = section.settings['look' | append: i | append: '_link'] %}
+      <a href="{{ lnk | default: '/collections/all' }}" class="look-card">
+        <div class="look-image look-{{ i }}"{% if img != blank %} style="background-image:url({{ img | image_url: width: 1200 }});background-size:cover;background-position:center;"{% endif %}></div>
+        <h3 class="look-title">{{ ttl }}</h3>
+      </a>
+    {% endfor %}
   </div>
 </section>
 
 <section class="featured-products">
   <div class="editorial-pair reveal-stagger">
-    <a href="/collections/all" class="editorial-pair-image pi-1"></a>
-    <a href="/collections/all" class="editorial-pair-image pi-2"></a>
+    <a href="{{ section.settings.editorial_link_1 | default: '/collections/all' }}" class="editorial-pair-image pi-1"{% if section.settings.editorial_image_1 != blank %} style="background-image:url({{ section.settings.editorial_image_1 | image_url: width: 1400 }});background-size:cover;background-position:center;"{% endif %}></a>
+    <a href="{{ section.settings.editorial_link_2 | default: '/collections/all' }}" class="editorial-pair-image pi-2"{% if section.settings.editorial_image_2 != blank %} style="background-image:url({{ section.settings.editorial_image_2 | image_url: width: 1400 }});background-size:cover;background-position:center;"{% endif %}></a>
   </div>
   <div class="featured-scroller-wrap">
-    <button class="featured-scroll-btn featured-scroll-prev" aria-label="Previous">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-    </button>
-    <button class="featured-scroll-btn featured-scroll-next" aria-label="Next">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"/>
-      </svg>
-    </button>
+    <button class="featured-scroll-btn featured-scroll-prev" aria-label="Previous"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="featured-scroll-btn featured-scroll-next" aria-label="Next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
     <div class="featured-scroller reveal-stagger">
-      <div class="product-card">
-        <div class="product-image pi-3"></div>
-        <h3 class="product-title">The Bias Skirt</h3>
-        <div class="product-price">$120</div>
-      </div>
-      <div class="product-card">
-        <div class="product-image pi-4"></div>
-        <h3 class="product-title">The Slip Dress</h3>
-        <div class="product-price">$180</div>
-      </div>
-      <div class="product-card">
-        <div class="product-image pi-5"></div>
-        <h3 class="product-title">The Cotton Shirt</h3>
-        <div class="product-price">$110</div>
-      </div>
-      <div class="product-card">
-        <div class="product-image pi-6"></div>
-        <h3 class="product-title">The Knit Vest</h3>
-        <div class="product-price">$135</div>
-      </div>
-      <div class="product-card">
-        <div class="product-image pi-7"></div>
-        <h3 class="product-title">The Silk Camisole</h3>
-        <div class="product-price">$95</div>
-      </div>
-      <div class="product-card">
-        <div class="product-image pi-1"></div>
-        <h3 class="product-title">The Crepe Blouse</h3>
-        <div class="product-price">$125</div>
-      </div>
-      <div class="product-card">
-        <div class="product-image pi-2"></div>
-        <h3 class="product-title">The Tank</h3>
-        <div class="product-price">$65</div>
-      </div>
-      <div class="product-card">
-        <div class="product-image pi-4"></div>
-        <h3 class="product-title">The Wide Leg</h3>
-        <div class="product-price">$155</div>
-      </div>
+      {% if section.settings.featured_collection != blank and section.settings.featured_collection.products.size > 0 %}
+        {% for product in section.settings.featured_collection.products limit: 12 %}
+          <a href="{{ product.url }}" class="product-card">
+            <div class="product-image"{% if product.featured_image %} style="background-image:url({{ product.featured_image | image_url: width: 700 }});background-size:cover;background-position:center;"{% endif %}></div>
+            <h3 class="product-title">{{ product.title }}</h3>
+            <div class="product-price">{{ product.price | money }}</div>
+          </a>
+        {% endfor %}
+      {% else %}
+        {% assign fallback = 'The Bias Skirt|$120|pi-3,The Slip Dress|$180|pi-4,The Cotton Shirt|$110|pi-5,The Knit Vest|$135|pi-6,The Silk Camisole|$95|pi-7,The Crepe Blouse|$125|pi-1,The Tank|$65|pi-2,The Wide Leg|$155|pi-4' | split: ',' %}
+        {% for f in fallback %}
+          {% assign parts = f | split: '|' %}
+          <div class="product-card">
+            <div class="product-image {{ parts[2] }}"></div>
+            <h3 class="product-title">{{ parts[0] }}</h3>
+            <div class="product-price">{{ parts[1] }}</div>
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 </section>
 
 <section class="curated-hero reveal">
-  <a href="/collections/all" class="curated-hero-image pi-6"></a>
+  <a href="{{ section.settings.curated_link | default: '/collections/all' }}" class="curated-hero-image pi-6"{% if section.settings.curated_image != blank %} style="background-image:url({{ section.settings.curated_image | image_url: width: 2000 }});background-size:cover;background-position:center;"{% endif %}></a>
 </section>
-
 
 <section class="community">
   <div class="community-header reveal">
-    <h2 class="section-title">In your <em>rotation</em></h2>
-    <a href="https://instagram.com" class="community-link">Find us on Instagram</a>
+    <h2 class="section-title">{{ section.settings.community_heading }}</h2>
+    {% if section.settings.community_link_label != blank %}<a href="{{ section.settings.community_link_url | default: '#' }}" class="community-link">{{ section.settings.community_link_label }}</a>{% endif %}
   </div>
   <div class="community-grid reveal-stagger">
-    <div class="community-tile"><div class="ct-bg ct-1"></div></div>
-    <div class="community-tile"><div class="ct-bg ct-2"></div></div>
-    <div class="community-tile"><div class="ct-bg ct-3"></div></div>
-    <div class="community-tile"><div class="ct-bg ct-4"></div></div>
+    {% for i in (1..4) %}
+      {% assign cimg = section.settings['community_image_' | append: i] %}
+      <div class="community-tile"><div class="ct-bg ct-{{ i }}"{% if cimg != blank %} style="background-image:url({{ cimg | image_url: width: 800 }});background-size:cover;background-position:center;"{% endif %}></div></div>
+    {% endfor %}
   </div>
 </section>
 
 {% schema %}
 {
   "name": "Home",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "The <em>quiet</em><br>edition"
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Subheading",
+      "default": "Spring \u00b7 Summer 2026"
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_label",
+      "label": "Button label",
+      "default": "Discover the collection"
+    },
+    {
+      "type": "url",
+      "id": "hero_cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Lookbook \u2014 Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "look1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "look1_title",
+      "label": "Title",
+      "default": "Tops & Tanks"
+    },
+    {
+      "type": "url",
+      "id": "look1_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Lookbook \u2014 Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "look2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "look2_title",
+      "label": "Title",
+      "default": "Bottoms"
+    },
+    {
+      "type": "url",
+      "id": "look2_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Lookbook \u2014 Card 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "look3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "look3_title",
+      "label": "Title",
+      "default": "Dresses"
+    },
+    {
+      "type": "url",
+      "id": "look3_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Featured products"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection to feature",
+      "info": "Leave empty to show placeholder cards."
+    },
+    {
+      "type": "image_picker",
+      "id": "editorial_image_1",
+      "label": "Editorial image 1"
+    },
+    {
+      "type": "url",
+      "id": "editorial_link_1",
+      "label": "Editorial image 1 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "editorial_image_2",
+      "label": "Editorial image 2"
+    },
+    {
+      "type": "url",
+      "id": "editorial_link_2",
+      "label": "Editorial image 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Curated image"
+    },
+    {
+      "type": "image_picker",
+      "id": "curated_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "curated_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Community / Instagram"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "community_heading",
+      "label": "Heading",
+      "default": "In your <em>rotation</em>"
+    },
+    {
+      "type": "text",
+      "id": "community_link_label",
+      "label": "Link label",
+      "default": "Find us on Instagram"
+    },
+    {
+      "type": "url",
+      "id": "community_link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "community_image_1",
+      "label": "Tile 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "community_image_2",
+      "label": "Tile 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "community_image_3",
+      "label": "Tile 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "community_image_4",
+      "label": "Tile 4"
+    }
+  ],
   "presets": [
     {
       "name": "Home"
