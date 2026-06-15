@@ -4,15 +4,18 @@
 
 <section class="lookbook">
   <div class="lookbook-grid reveal-stagger">
-    {% for i in (1..3) %}
-      {% assign img = section.settings['look' | append: i | append: '_image'] %}
-      {% assign ttl = section.settings['look' | append: i | append: '_title'] %}
-      {% assign lnk = section.settings['look' | append: i | append: '_link'] %}
-      <a href="{{ lnk | default: '/collections/all' }}" class="look-card">
-        <div class="look-image look-{{ i }}"{% if img != blank %} style="background-image:url({{ img | image_url: width: 1200 }});background-size:cover;background-position:center;"{% endif %}></div>
-        <h3 class="look-title">{{ ttl }}</h3>
-      </a>
-    {% endfor %}
+    <a href="{{ section.settings.look1_link | default: '/collections/all' }}" class="look-card">
+      <div class="look-image look-1"{% if section.settings.look1_image != blank %} style="background-image:url({{ section.settings.look1_image | image_url: width: 1200 }});background-size:cover;background-position:center;"{% endif %}></div>
+      <h3 class="look-title">{{ section.settings.look1_title }}</h3>
+    </a>
+    <a href="{{ section.settings.look2_link | default: '/collections/all' }}" class="look-card">
+      <div class="look-image look-2"{% if section.settings.look2_image != blank %} style="background-image:url({{ section.settings.look2_image | image_url: width: 1200 }});background-size:cover;background-position:center;"{% endif %}></div>
+      <h3 class="look-title">{{ section.settings.look2_title }}</h3>
+    </a>
+    <a href="{{ section.settings.look3_link | default: '/collections/all' }}" class="look-card">
+      <div class="look-image look-3"{% if section.settings.look3_image != blank %} style="background-image:url({{ section.settings.look3_image | image_url: width: 1200 }});background-size:cover;background-position:center;"{% endif %}></div>
+      <h3 class="look-title">{{ section.settings.look3_title }}</h3>
+    </a>
   </div>
 </section>
 
@@ -58,10 +61,10 @@
     {% if section.settings.community_link_label != blank %}<a href="{{ section.settings.community_link_url | default: '#' }}" class="community-link">{{ section.settings.community_link_label }}</a>{% endif %}
   </div>
   <div class="community-grid reveal-stagger">
-    {% for i in (1..4) %}
-      {% assign cimg = section.settings['community_image_' | append: i] %}
-      <div class="community-tile"><div class="ct-bg ct-{{ i }}"{% if cimg != blank %} style="background-image:url({{ cimg | image_url: width: 800 }});background-size:cover;background-position:center;"{% endif %}></div></div>
-    {% endfor %}
+    <div class="community-tile"><div class="ct-bg ct-1"{% if section.settings.community_image_1 != blank %} style="background-image:url({{ section.settings.community_image_1 | image_url: width: 800 }});background-size:cover;background-position:center;"{% endif %}></div></div>
+    <div class="community-tile"><div class="ct-bg ct-2"{% if section.settings.community_image_2 != blank %} style="background-image:url({{ section.settings.community_image_2 | image_url: width: 800 }});background-size:cover;background-position:center;"{% endif %}></div></div>
+    <div class="community-tile"><div class="ct-bg ct-3"{% if section.settings.community_image_3 != blank %} style="background-image:url({{ section.settings.community_image_3 | image_url: width: 800 }});background-size:cover;background-position:center;"{% endif %}></div></div>
+    <div class="community-tile"><div class="ct-bg ct-4"{% if section.settings.community_image_4 != blank %} style="background-image:url({{ section.settings.community_image_4 | image_url: width: 800 }});background-size:cover;background-position:center;"{% endif %}></div></div>
   </div>
 </section>
 
