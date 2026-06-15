@@ -1,10 +1,5 @@
 <section class="hero" style="padding:0">
   <div class="hero-image"{% if section.settings.hero_image != blank %} style="background-image:url({{ section.settings.hero_image | image_url: width: 2400 }});background-size:cover;background-position:center;"{% endif %}></div>
-  <div class="hero-content">
-    <h1>{{ section.settings.hero_heading }}</h1>
-    {% if section.settings.hero_sub != blank %}<div class="hero-sub">{{ section.settings.hero_sub }}</div>{% endif %}
-    {% if section.settings.hero_cta_label != blank %}<a href="{{ section.settings.hero_cta_link | default: '#' }}" class="btn-line">{{ section.settings.hero_cta_label }}</a>{% endif %}
-  </div>
 </section>
 
 <section class="lookbook">
@@ -82,29 +77,6 @@
       "type": "image_picker",
       "id": "hero_image",
       "label": "Hero image"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "hero_heading",
-      "label": "Heading",
-      "default": "The <em>quiet</em><br>edition"
-    },
-    {
-      "type": "text",
-      "id": "hero_sub",
-      "label": "Subheading",
-      "default": "Spring \u00b7 Summer 2026"
-    },
-    {
-      "type": "text",
-      "id": "hero_cta_label",
-      "label": "Button label",
-      "default": "Discover the collection"
-    },
-    {
-      "type": "url",
-      "id": "hero_cta_link",
-      "label": "Button link"
     },
     {
       "type": "header",
