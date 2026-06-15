@@ -1,0 +1,39 @@
+<div class="collection-head">
+  <h1 class="collection-title">{{ collection.title }}</h1>
+  {% if collection.description != blank %}
+    <p class="collection-intro">{{ collection.description }}</p>
+  {% endif %}
+</div>
+
+<div class="product-grid">
+  {% for product in collection.products %}
+    <a href="{{ product.url }}" class="product-card">
+      <div class="product-image primary">
+        {% if product.featured_media %}
+          <img src="{{ product.featured_media | image_url: width: 800 }}" alt="{{ product.title | escape }}" loading="lazy" width="600">
+        {% endif %}
+      </div>
+      <div class="product-card-info">
+        <span class="product-card-name">{{ product.title }}</span>
+        <span class="product-card-price">{{ product.price | money }}</span>
+      </div>
+    </a>
+  {% else %}
+    <p>No products in this collection yet.</p>
+  {% endfor %}
+</div>
+
+{{ paginate }}
+
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collection"
+    }
+  ]
+}
+{% endschema %}

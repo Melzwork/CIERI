@@ -1,0 +1,13 @@
+<div class="legal-page"><h1 class="legal-title">My account</h1><p>Welcome, {{ customer.first_name }}.</p>{{ customer.orders | default: "" }}</div>
+
+{% schema %}
+{
+  "name": "Customers account",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customers account"
+    }
+  ]
+}
+{% endschema %}

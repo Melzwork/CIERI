@@ -1,0 +1,28 @@
+<section class="ab-hero">
+  {% if section.settings.hero_image != blank %}
+    <img class="ab-hero-img"
+         src="{{ section.settings.hero_image | image_url: width: 2400 }}"
+         srcset="{{ section.settings.hero_image | image_url: width: 1200 }} 1200w,
+                 {{ section.settings.hero_image | image_url: width: 2400 }} 2400w"
+         sizes="100vw"
+         alt="{{ section.settings.hero_image.alt | default: shop.name | escape }}"
+         width="2400" height="1500" loading="eager">
+  {% else %}
+    <div class="ab-hero-media"></div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "About hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image",
+      "info": "Full-screen image for the Our Story page. Leave empty to show the original gradient."
+    }
+  ],
+  "presets": [{ "name": "About hero" }]
+}
+{% endschema %}
