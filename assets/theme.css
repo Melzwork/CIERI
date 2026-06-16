@@ -2929,6 +2929,15 @@ body.template-page.template-suffix-about #MainContent,
     gap: 24px;
   }
 
+  /* the add-to-cart form must carry the same spacing as the column,
+     since its children (label, swatches, sizes, button, note) used to
+     be direct flex items */
+  .product-info-inner [data-product-form] {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
   .product-header {
     display: flex;
     justify-content: space-between;
