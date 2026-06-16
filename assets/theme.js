@@ -749,3 +749,96 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
     if (item) item.classList.toggle('open');
   });
 });
+
+/* ===== Product page: variant selection + recommendations carousel ===== */
+(function () {
+  var form = document.querySelector('[data-product-form]');
+  if (form) {
+    var dataEl = form.querySelector('[data-variant-json]');
+    var variants = dataEl ? (JSON.parse(dataEl.textContent).variants || []) : [];
+    var idInput = form.querySelector('[data-variant-id]');
+    var addBtn = form.querySelector('[data-add-to-bag]');
+    var priceEl = document.querySelector('.product-price');
+
+    function selected() {
+      var sel = {};
+      form.querySelectorAll('.color-swatch.active, .size-btn.active').forEach(function (b) {
+        sel[b.dataset.optionPosition] = b.dataset.color || b.dataset.size;
+      });
+      return sel;
+    }
+    function match(sel) {
+      return variants.find(function (v) {
+        return Object.keys(sel).every(function (p) { return v['option' + p] === sel[p]; });
+      });
+    }
+    function update() {
+      var v = match(selected()) || variants[0];
+      if (!v) return;
+      if (idInput) idInput.value = v.id;
+      if (priceEl) priceEl.textContent = v.price;
+      if (addBtn) {
+        addBtn.disabled = !v.available;
+        addBtn.textContent = v.available ? ('Add to bag \u00b7 ' + v.price) : 'Sold out';
+      }
+    }
+    form.querySelectorAll('.color-swatch').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.disabled) return;
+        form.querySelectorAll('.color-swatch').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
+        var cur = document.querySelector('[data-current-color]');
+        if (cur) cur.textContent = '\u00b7 ' + b.dataset.color;
+        update();
+      });
+    });
+    form.querySelectorAll('.size-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.disabled) return;
+        form.querySelectorAll('.size-btn').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
+        update();
+      });
+    });
+    update();
+  }
+
+  // Recommendations carousel
+  var track = document.querySelector('[data-ymal-track]');
+  var prev = document.querySelector('[data-ymal-prev]');
+  var next = document.querySelector('[data-ymal-next]');
+  if (track && prev && next) {
+    function cardW() { var c = track.querySelector('.ymal-card'); return c ? c.getBoundingClientRect().width + 16 : 300; }
+    function arrows() {
+      prev.disabled = track.scrollLeft <= 4;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    }
+    prev.addEventListener('click', function () { track.scrollBy({ left: -cardW() * 2, behavior: 'smooth' }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: cardW() * 2, behavior: 'smooth' }); });
+    track.addEventListener('scroll', arrows);
+    arrows();
+  }
+})();
+
+/* ===== Product gallery: vertical carousel dots ===== */
+(function () {
+  var gal = document.querySelector('[data-gallery]');
+  var dotsWrap = document.querySelector('[data-gallery-dots]');
+  if (!gal || !dotsWrap) return;
+  var dots = dotsWrap.querySelectorAll('.gallery-dot');
+  if (!dots.length) return;
+  var raf;
+  gal.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = null;
+      var idx = Math.round(gal.scrollTop / gal.clientHeight);
+      dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+    });
+  });
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      gal.scrollTo({ top: parseInt(d.dataset.dot, 10) * gal.clientHeight, behavior: 'smooth' });
+    });
+  });
+})();

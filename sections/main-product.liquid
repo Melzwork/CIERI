@@ -1,64 +1,171 @@
-<div class="product-page" data-product-id="{{ product.id }}">
-  <div class="product-gallery">
-    {% for media in product.media %}
-      <img src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" loading="lazy" width="900">
-    {% else %}
-      <div class="product-image-placeholder"></div>
-    {% endfor %}
+{%- liquid
+  assign color_opt = nil
+  assign size_opt = nil
+  for opt in product.options_with_values
+    assign dn = opt.name | downcase
+    if dn contains 'colour' or dn contains 'color'
+      assign color_opt = opt
+    endif
+    if dn contains 'size'
+      assign size_opt = opt
+    endif
+  endfor
+-%}
+
+<div class="pdp">
+
+  <div class="gallery-wrap">
+    <div class="gallery" data-gallery>
+      {%- if product.media.size > 0 -%}
+        {%- for m in product.media limit: 8 -%}
+          <div class="gallery-img" style="background-image:url({{ m | image_url: width: 1400 }});"></div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="gallery-img gi-1"></div>
+        <div class="gallery-img gi-2"></div>
+        <div class="gallery-img gi-3"></div>
+      {%- endif -%}
+    </div>
+    {%- if product.media.size > 1 -%}
+    <div class="gallery-dots" data-gallery-dots>
+      {%- for m in product.media limit: 8 -%}
+        <button type="button" class="gallery-dot{% if forloop.first %} active{% endif %}" data-dot="{{ forloop.index0 }}" aria-label="Image {{ forloop.index }}"></button>
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
   </div>
 
-  <div class="product-details">
-    <h1 class="product-title">{{ product.title }}</h1>
-    <div class="product-price" data-price>{{ product.selected_or_first_available_variant.price | money }}</div>
+  <div class="product-info">
+    <div class="product-info-inner">
 
-    {% if product.description != blank %}
-      <div class="product-description rte">{{ product.description }}</div>
-    {% endif %}
+      <div class="product-header">
+        <h1 class="product-title">{{ product.title }}</h1>
+        <div class="product-price">{{ product.selected_or_first_available_variant.price | money }}</div>
+      </div>
 
-    <form method="post" action="{{ routes.cart_add_url }}" id="product-form" data-product-form>
-      {% unless product.has_only_default_variant %}
-        {% for option in product.options_with_values %}
-          <div class="product-option">
-            <label class="product-option-label">{{ option.name }}</label>
-            <div class="product-option-values">
-              {% for value in option.values %}
-                <label class="option-pill">
-                  <input type="radio" name="option-{{ option.position }}" value="{{ value | escape }}"
-                         {% if option.selected_value == value %}checked{% endif %}>
-                  <span>{{ value }}</span>
-                </label>
-              {% endfor %}
-            </div>
-          </div>
-        {% endfor %}
-      {% endunless %}
+      <form method="post" action="{{ routes.cart_add_url }}" data-product-form>
 
-      <select name="id" data-variant-select class="visually-hidden" aria-hidden="true">
-        {% for variant in product.variants %}
-          <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}
-                  {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
-            {{ variant.title }}
-          </option>
-        {% endfor %}
-      </select>
+        {%- if color_opt -%}
+        <div class="selector-label">
+          <span class="selector-label-text">{{ color_opt.name }} <span class="selector-label-current" data-current-color>&middot; {{ color_opt.selected_value }}</span></span>
+        </div>
+        <div class="color-row" data-colors>
+          {%- for value in color_opt.values -%}
+            {%- assign cl = value | downcase -%}
+            {%- case cl -%}
+              {%- when 'white' -%}{%- assign hex = '#FFFFFF;box-shadow:inset 0 0 0 1px rgba(19,24,43,0.18)' -%}
+              {%- when 'black' -%}{%- assign hex = '#0F0F0F' -%}
+              {%- when 'ink' -%}{%- assign hex = '#13182B' -%}
+              {%- when 'taupe' -%}{%- assign hex = '#B8A98F' -%}
+              {%- when 'oat' -%}{%- assign hex = '#FFF5E5' -%}
+              {%- when 'espresso' -%}{%- assign hex = '#5A3D2B' -%}
+              {%- when 'walnut' -%}{%- assign hex = '#5A4632' -%}
+              {%- when 'pebble' -%}{%- assign hex = '#DFDFDE' -%}
+              {%- when 'stone' -%}{%- assign hex = '#D6CFC4' -%}
+              {%- when 'sand' -%}{%- assign hex = '#E4D9C5' -%}
+              {%- when 'cream' -%}{%- assign hex = '#F4EFE6' -%}
+              {%- when 'porcelain','ivory','bone' -%}{%- assign hex = '#F6F3EC' -%}
+              {%- when 'charcoal' -%}{%- assign hex = '#403F3F' -%}
+              {%- when 'grey','gray' -%}{%- assign hex = '#9A9A98' -%}
+              {%- when 'alice blue' -%}{%- assign hex = '#D8E4EE' -%}
+              {%- when 'navy' -%}{%- assign hex = '#222C45' -%}
+              {%- when 'sage' -%}{%- assign hex = '#B7BFA6' -%}
+              {%- when 'lemon','lemon chiffon' -%}{%- assign hex = '#F5EFC8' -%}
+              {%- when 'blush','blush pink' -%}{%- assign hex = '#FAE6E8' -%}
+              {%- when 'cherry','dark cherry' -%}{%- assign hex = '#540D07' -%}
+              {%- when 'camel' -%}{%- assign hex = '#C19A6B' -%}
+              {%- when 'olive' -%}{%- assign hex = '#6B6A4B' -%}
+              {%- else -%}{%- assign hex = '#DFDFDE' -%}
+            {%- endcase -%}
+            <button type="button" class="color-swatch has-ring{% if color_opt.selected_value == value %} active{% endif %}" data-color="{{ value | escape }}" data-option-position="{{ color_opt.position }}" style="--swatch-color: {{ hex }}" title="{{ value | escape }}" aria-label="{{ value | escape }}"></button>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
 
-      <button type="submit" name="add" class="add-to-cart-btn"
-              {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-        {% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Sold out{% endif %}
-      </button>
-    </form>
+        {%- if size_opt -%}
+        <div class="selector-label">
+          <span class="selector-label-text">{{ size_opt.name }}</span>
+          <a href="/pages/customer-care#sizing" class="selector-link">Size guide</a>
+        </div>
+        <div class="size-row" data-sizes>
+          {%- for value in size_opt.values -%}
+            <button type="button" class="size-btn{% if size_opt.selected_value == value %} active{% endif %}" data-size="{{ value | escape }}" data-option-position="{{ size_opt.position }}">{{ value }}</button>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        <input type="hidden" name="id" data-variant-id value="{{ product.selected_or_first_available_variant.id }}">
+
+        <button type="submit" class="add-to-bag" data-add-to-bag {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+          {%- if product.selected_or_first_available_variant.available -%}Add to bag &middot; {{ product.selected_or_first_available_variant.price | money }}{%- else -%}Sold out{%- endif -%}
+        </button>
+        <div class="shipping-note">Shipping calculated at checkout</div>
+
+        <script type="application/json" data-variant-json>
+          {"variants":[{%- for v in product.variants -%}{"id":{{ v.id }},"available":{{ v.available }},"price":{{ v.price | money | json }},"option1":{{ v.option1 | json }},"option2":{{ v.option2 | json }},"option3":{{ v.option3 | json }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]}
+        </script>
+      </form>
+
+      {%- if product.description != blank -%}
+      <div class="product-desc">
+        <h2 class="product-desc-title">Details</h2>
+        {{ product.description }}
+      </div>
+      {%- endif -%}
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button type="button" class="accordion-trigger"><span>Materials &amp; Care</span><span class="accordion-icon">+</span></button>
+          <div class="accordion-content"><div class="accordion-body">
+            {%- if product.metafields.custom.care != blank -%}{{ product.metafields.custom.care }}{%- else -%}<p>Machine wash cold with like colours, or hand-wash. Lay flat away from direct sunlight to dry. Refer to the care label sewn into each garment.</p>{%- endif -%}
+          </div></div>
+        </div>
+        <div class="accordion-item">
+          <button type="button" class="accordion-trigger"><span>Sizing &amp; Fit</span><span class="accordion-icon">+</span></button>
+          <div class="accordion-content"><div class="accordion-body">
+            <p>Designed with a considered fit. If you are between sizes, size down for a closer fit. Full measurements are in our <a href="/pages/customer-care#sizing" style="border-bottom:1px solid currentColor;">size guide</a>.</p>
+          </div></div>
+        </div>
+      </div>
+
+    </div>
   </div>
+
 </div>
 
+{%- assign rel_products = product.collections.first.products -%}
+{%- if rel_products == blank or rel_products.size < 2 -%}
+  {%- assign rel_products = collections.all.products -%}
+{%- endif -%}
+{%- if rel_products.size > 1 -%}
+<section class="ymal">
+  <div class="ymal-header">
+    <h2 class="ymal-title">You may also like</h2>
+    <div class="ymal-controls">
+      <button class="ymal-arrow" data-ymal-prev aria-label="Previous"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="ymal-arrow" data-ymal-next aria-label="Next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+  <div class="ymal-track" data-ymal-track>
+    {%- for p in rel_products limit: 16 -%}
+      {%- unless p.id == product.id -%}
+      <a href="{{ p.url }}" class="ymal-card">
+        <div class="ymal-image"{% if p.featured_image %} style="background-image:url({{ p.featured_image | image_url: width: 600 }});background-size:cover;background-position:center;"{% endif %}></div>
+        <div class="ymal-info">
+          <div class="ymal-name">{{ p.title }}</div>
+          <div class="ymal-price">{{ p.price | money }}</div>
+        </div>
+      </a>
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Product",
   "settings": [],
-  "presets": [
-    {
-      "name": "Product"
-    }
-  ]
+  "presets": [{ "name": "Product" }]
 }
 {% endschema %}
