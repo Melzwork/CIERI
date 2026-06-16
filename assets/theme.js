@@ -874,3 +874,31 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
     if (n > 0) { badge.textContent = n; badge.classList.remove('hidden'); }
   }
 })();
+
+
+/* ===== PRICE RANGE SLIDER ===== */
+(function(){
+  document.querySelectorAll('[data-price-slider]').forEach(function(box){
+    var minR = box.querySelector('[data-price-min]');
+    var maxR = box.querySelector('[data-price-max]');
+    var fill = box.querySelector('[data-range-fill]');
+    var minL = box.querySelector('[data-price-min-label]');
+    var maxL = box.querySelector('[data-price-max-label]');
+    var cur  = box.getAttribute('data-currency') || '';
+    var max  = parseFloat(box.getAttribute('data-max')) || 100;
+    function paint(){
+      var a = Math.min(+minR.value, +maxR.value);
+      var b = Math.max(+minR.value, +maxR.value);
+      if (+minR.value > +maxR.value) { var t = minR.value; minR.value = maxR.value; maxR.value = t; }
+      var lo = (Math.min(+minR.value,+maxR.value)/max)*100;
+      var hi = (Math.max(+minR.value,+maxR.value)/max)*100;
+      fill.style.left = lo + '%';
+      fill.style.width = (hi - lo) + '%';
+      minL.textContent = cur + Math.min(+minR.value,+maxR.value);
+      maxL.textContent = cur + Math.max(+minR.value,+maxR.value);
+    }
+    minR.addEventListener('input', paint);
+    maxR.addEventListener('input', paint);
+    paint();
+  });
+})();

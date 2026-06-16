@@ -87,8 +87,21 @@
             </label>
           {%- endfor -%}
         {%- elsif f.type == 'price_range' -%}
-          <label class="filter-opt">Min<input type="number" name="{{ f.min_value.param_name }}" value="{{ f.min_value.value }}" placeholder="{{ 0 | money }}"></label>
-          <label class="filter-opt">Max<input type="number" name="{{ f.max_value.param_name }}" value="{{ f.max_value.value }}" placeholder="{{ f.range_max | money }}"></label>
+          {%- assign rmax = f.range_max -%}
+          {%- assign cur_min = f.min_value.value | default: 0 -%}
+          {%- assign cur_max = f.max_value.value | default: rmax -%}
+          <div class="price-slider" data-price-slider data-max="{{ rmax }}" data-currency="{{ cart.currency.symbol }}">
+            <div class="price-readout">
+              <span data-price-min-label>{{ cart.currency.symbol }}{{ cur_min | round }}</span>
+              <span data-price-max-label>{{ cart.currency.symbol }}{{ cur_max | round }}</span>
+            </div>
+            <div class="range-wrap">
+              <div class="range-track"></div>
+              <div class="range-fill" data-range-fill></div>
+              <input type="range" min="0" max="{{ rmax | round }}" value="{{ cur_min | round }}" name="{{ f.min_value.param_name }}" data-price-min>
+              <input type="range" min="0" max="{{ rmax | round }}" value="{{ cur_max | round }}" name="{{ f.max_value.param_name }}" data-price-max>
+            </div>
+          </div>
         {%- endif -%}
       </div>
     {%- endfor -%}
