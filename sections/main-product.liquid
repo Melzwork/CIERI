@@ -118,7 +118,7 @@
         <div class="accordion-item">
           <button type="button" class="accordion-trigger"><span>Fabric &amp; Care</span><span class="accordion-icon">+</span></button>
           <div class="accordion-content"><div class="accordion-body">
-            {%- if product.metafields.custom.care != blank -%}{{ product.metafields.custom.care }}{%- else -%}<p>Machine wash cold with like colours, or hand-wash. Lay flat away from direct sunlight to dry. Refer to the care label sewn into each garment.</p>{%- endif -%}
+            {%- if product.metafields.custom.fabric_care != blank -%}{{ product.metafields.custom.fabric_care | newline_to_br }}{%- else -%}<p>Machine wash cold with like colours, or hand-wash. Lay flat away from direct sunlight to dry. Refer to the care label sewn into each garment.</p>{%- endif -%}
           </div></div>
         </div>
         <div class="accordion-item">
