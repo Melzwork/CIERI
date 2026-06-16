@@ -106,16 +106,17 @@
         </script>
       </form>
 
-      {%- if product.description != blank -%}
-      <div class="product-desc">
-        <h2 class="product-desc-title">Details</h2>
-        {{ product.description }}
-      </div>
-      {%- endif -%}
-
       <div class="accordion">
+        {%- if product.description != blank -%}
+        <div class="accordion-item open">
+          <button type="button" class="accordion-trigger"><span>Details</span><span class="accordion-icon">+</span></button>
+          <div class="accordion-content"><div class="accordion-body">
+            {{ product.description }}
+          </div></div>
+        </div>
+        {%- endif -%}
         <div class="accordion-item">
-          <button type="button" class="accordion-trigger"><span>Materials &amp; Care</span><span class="accordion-icon">+</span></button>
+          <button type="button" class="accordion-trigger"><span>Fabric &amp; Care</span><span class="accordion-icon">+</span></button>
           <div class="accordion-content"><div class="accordion-body">
             {%- if product.metafields.custom.care != blank -%}{{ product.metafields.custom.care }}{%- else -%}<p>Machine wash cold with like colours, or hand-wash. Lay flat away from direct sunlight to dry. Refer to the care label sewn into each garment.</p>{%- endif -%}
           </div></div>
