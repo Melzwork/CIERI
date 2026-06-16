@@ -1,39 +1,109 @@
-<div class="collection-head">
-  <h1 class="collection-title">{{ collection.title }}</h1>
-  {% if collection.description != blank %}
-    <p class="collection-intro">{{ collection.description }}</p>
-  {% endif %}
+{%- assign sort = collection.sort_by | default: collection.default_sort_by -%}
+<div class="col-head">
+  <h1 class="col-title">{{ collection.title }}</h1>
+  {%- if collection.description != blank -%}
+    <p class="col-intro">{{ collection.description }}</p>
+  {%- endif -%}
 </div>
 
-<div class="product-grid">
-  {% for product in collection.products %}
-    <a href="{{ product.url }}" class="product-card">
-      <div class="product-image primary">
-        {% if product.featured_media %}
-          <img src="{{ product.featured_media | image_url: width: 800 }}" alt="{{ product.title | escape }}" loading="lazy" width="600">
-        {% endif %}
+<div class="toolbar">
+  <div class="toolbar-left">
+    {%- if collection.filters.size > 0 -%}
+    <button class="filter-trigger" data-filter-open type="button">
+      <span>Filter</span>
+      <span class="filter-count hidden" data-filter-count>0</span>
+    </button>
+    {%- endif -%}
+    <span class="product-count">{{ collection.products_count }} {% if collection.products_count == 1 %}item{% else %}items{% endif %}</span>
+  </div>
+  <div class="toolbar-right">
+    <div class="sort-wrap" data-sort-wrap>
+      <button class="sort-trigger" data-sort-trigger type="button" aria-expanded="false">
+        <span>Sort by &middot; <span data-current-sort>
+          {%- case sort -%}
+            {%- when 'created-descending' -%}Newest
+            {%- when 'price-ascending' -%}Price &middot; low to high
+            {%- when 'price-descending' -%}Price &middot; high to low
+            {%- else -%}Featured
+          {%- endcase -%}
+        </span></span>
+        <svg class="sort-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="sort-dropdown" data-sort-dropdown>
+        <a class="sort-option {% if sort == 'manual' or sort == blank %}active{% endif %}" href="{{ collection.url }}?sort_by=manual">Featured</a>
+        <a class="sort-option {% if sort == 'created-descending' %}active{% endif %}" href="{{ collection.url }}?sort_by=created-descending">Newest</a>
+        <a class="sort-option {% if sort == 'price-ascending' %}active{% endif %}" href="{{ collection.url }}?sort_by=price-ascending">Price &middot; low to high</a>
+        <a class="sort-option {% if sort == 'price-descending' %}active{% endif %}" href="{{ collection.url }}?sort_by=price-descending">Price &middot; high to low</a>
       </div>
-      <div class="product-card-info">
-        <span class="product-card-name">{{ product.title }}</span>
-        <span class="product-card-price">{{ product.price | money }}</span>
-      </div>
-    </a>
-  {% else %}
-    <p>No products in this collection yet.</p>
-  {% endfor %}
+    </div>
+  </div>
 </div>
 
-{{ paginate }}
+<div class="grid-wrap">
+  {%- paginate collection.products by 24 -%}
+  <div class="col-grid">
+    {%- for product in collection.products -%}
+      <a href="{{ product.url }}" class="col-card">
+        <div class="col-image-wrap">
+          {%- if product.featured_media -%}
+            <img src="{{ product.featured_media | image_url: width: 700 }}" alt="{{ product.title | escape }}" loading="lazy" width="525" height="700">
+          {%- endif -%}
+          {%- if product.media[1] -%}
+            <img class="alt" src="{{ product.media[1] | image_url: width: 700 }}" alt="" loading="lazy" width="525" height="700">
+          {%- endif -%}
+        </div>
+        <div class="col-info">
+          <span class="col-name">{{ product.title }}</span>
+          <span class="col-price">{{ product.price | money }}</span>
+        </div>
+      </a>
+    {%- else -%}
+      <p class="col-empty">No products in this collection yet.</p>
+    {%- endfor -%}
+  </div>
+  {{ paginate | default_pagination }}
+  {%- endpaginate -%}
+</div>
 
+{%- if collection.filters.size > 0 -%}
+<div class="filter-overlay" data-filter-overlay></div>
+<aside class="filter-drawer" data-filter-drawer aria-hidden="true">
+  <div class="filter-head">
+    <span>Filter</span>
+    <button class="filter-close" data-filter-close aria-label="Close" type="button">&times;</button>
+  </div>
+  <form class="filter-body" method="get">
+    {%- if collection.current_vendor or collection.current_type -%}
+      <input type="hidden" name="q" value="{{ collection.current_vendor }}{{ collection.current_type }}">
+    {%- endif -%}
+    {%- for f in collection.filters -%}
+      <div class="filter-group">
+        <div class="filter-group-title">{{ f.label }}</div>
+        {%- if f.type == 'list' -%}
+          {%- for v in f.values -%}
+            <label class="filter-opt">
+              <input type="checkbox" name="{{ v.param_name }}" value="{{ v.value }}" {% if v.active %}checked{% endif %}>
+              {{ v.label }} ({{ v.count }})
+            </label>
+          {%- endfor -%}
+        {%- elsif f.type == 'price_range' -%}
+          <label class="filter-opt">Min<input type="number" name="{{ f.min_value.param_name }}" value="{{ f.min_value.value }}" placeholder="{{ 0 | money }}"></label>
+          <label class="filter-opt">Max<input type="number" name="{{ f.max_value.param_name }}" value="{{ f.max_value.value }}" placeholder="{{ f.range_max | money }}"></label>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+    <div class="filter-foot">
+      <button class="filter-apply" type="submit">Apply</button>
+      <a class="filter-clear" href="{{ collection.url }}">Clear</a>
+    </div>
+  </form>
+</aside>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Collection",
   "settings": [],
-  "presets": [
-    {
-      "name": "Collection"
-    }
-  ]
+  "presets": [{ "name": "Collection" }]
 }
 {% endschema %}

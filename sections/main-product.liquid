@@ -97,7 +97,7 @@
         <input type="hidden" name="id" data-variant-id value="{{ product.selected_or_first_available_variant.id }}">
 
         <button type="submit" class="add-to-bag" data-add-to-bag {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-          {%- if product.selected_or_first_available_variant.available -%}Add to bag &middot; {{ product.selected_or_first_available_variant.price | money }}{%- else -%}Sold out{%- endif -%}
+          {%- if product.selected_or_first_available_variant.available -%}Add to bag{%- else -%}Sold out{%- endif -%}
         </button>
         <div class="shipping-note">Shipping calculated at checkout</div>
 

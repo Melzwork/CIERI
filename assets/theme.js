@@ -779,7 +779,7 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
       if (priceEl) priceEl.textContent = v.price;
       if (addBtn) {
         addBtn.disabled = !v.available;
-        addBtn.textContent = v.available ? ('Add to bag \u00b7 ' + v.price) : 'Sold out';
+        addBtn.textContent = v.available ? 'Add to bag' : 'Sold out';
       }
     }
     form.querySelectorAll('.color-swatch').forEach(function (b) {
@@ -841,4 +841,36 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
       gal.scrollTo({ top: parseInt(d.dataset.dot, 10) * gal.clientHeight, behavior: 'smooth' });
     });
   });
+})();
+
+
+/* ===== COLLECTION TOOLBAR ===== */
+(function(){
+  var sortWrap = document.querySelector('[data-sort-wrap]');
+  if (sortWrap) {
+    var trigger = sortWrap.querySelector('[data-sort-trigger]');
+    trigger.addEventListener('click', function(e){
+      e.stopPropagation();
+      sortWrap.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', sortWrap.classList.contains('open'));
+    });
+    document.addEventListener('click', function(){ sortWrap.classList.remove('open'); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') sortWrap.classList.remove('open'); });
+  }
+  var fOpen = document.querySelector('[data-filter-open]');
+  var fDrawer = document.querySelector('[data-filter-drawer]');
+  var fOverlay = document.querySelector('[data-filter-overlay]');
+  var fClose = document.querySelector('[data-filter-close]');
+  function openF(){ if(fDrawer){ fDrawer.classList.add('open'); fOverlay.classList.add('active'); } }
+  function closeF(){ if(fDrawer){ fDrawer.classList.remove('open'); fOverlay.classList.remove('active'); } }
+  if (fOpen) fOpen.addEventListener('click', openF);
+  if (fClose) fClose.addEventListener('click', closeF);
+  if (fOverlay) fOverlay.addEventListener('click', closeF);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeF(); });
+  // active filter count badge
+  var badge = document.querySelector('[data-filter-count]');
+  if (badge && fDrawer) {
+    var n = fDrawer.querySelectorAll('input[type=checkbox]:checked').length;
+    if (n > 0) { badge.textContent = n; badge.classList.remove('hidden'); }
+  }
 })();
