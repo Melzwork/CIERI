@@ -28,7 +28,7 @@
       </svg>
     </button>
     <nav class="primary">
-      <button class="nav-trigger" data-dropdown-trigger="shop" aria-expanded="false" aria-controls="dropdown-shop">Shop</button>
+      <a href="/collections/all" class="nav-trigger" data-dropdown-trigger="shop" aria-expanded="false" aria-controls="dropdown-shop" style="text-decoration:none;color:inherit;">Shop</a>
     </nav>
     <a href="{{ routes.root_url }}" class="logo" style="text-decoration:none;color:inherit;">CIERI</a>
     <div class="header-utility">
@@ -43,14 +43,14 @@
 
       <!-- Persistent left column: root nav (always visible) -->
       <div class="nested-root">
-        <button class="nested-item nested-root-item" data-nested-go="categories">
+        <a href="/collections/all" class="nested-item nested-root-item" data-nested-go="categories">
           <span>Categories</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
-        </button>
-        <button class="nested-item nested-root-item" data-nested-go="colours">
+        </a>
+        <a href="/collections/all" class="nested-item nested-root-item" data-nested-go="colours">
           <span>Colours</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
-        </button>
+        </a>
       </div>
 
       <!-- Expansion column: shows children of whichever root item is active -->

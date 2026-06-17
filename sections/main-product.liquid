@@ -124,7 +124,12 @@
         <div class="accordion-item">
           <button type="button" class="accordion-trigger"><span>Sizing &amp; Fit</span><span class="accordion-icon">+</span></button>
           <div class="accordion-content"><div class="accordion-body">
-            <p>Designed with a considered fit. If you are between sizes, size down for a closer fit. Full measurements are in our <a href="/pages/customer-care#sizing" style="border-bottom:1px solid currentColor;">size guide</a>.</p>
+            {%- if product.metafields.custom.sizing_fit != blank -%}
+              {{ product.metafields.custom.sizing_fit | newline_to_br }}
+            {%- else -%}
+              <p>Designed with a considered fit. If you are between sizes, size down for a closer fit.</p>
+            {%- endif -%}
+            <p>Full measurements are in our <a href="/pages/customer-care#sizing" style="border-bottom:1px solid currentColor;">size guide</a>.</p>
           </div></div>
         </div>
       </div>
