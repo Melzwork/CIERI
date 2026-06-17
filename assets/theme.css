@@ -3344,9 +3344,9 @@ body.template-page.template-suffix-about #MainContent,
   }
   /* ===== YOU MAY ALSO LIKE - horizontal carousel ===== */
   .ymal {
-    padding: 100px 0 80px;
+    padding: 52px 0 80px;
     border-top: 1px solid var(--ink-faint);
-    margin-top: 80px;
+    margin-top: 0;
   }
 
   .ymal-header {
