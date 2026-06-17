@@ -772,15 +772,45 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
         return Object.keys(sel).every(function (p) { return v['option' + p] === sel[p]; });
       });
     }
+    var allColors = Array.prototype.map.call(
+      form.querySelectorAll('.color-swatch'),
+      function (s) { return (s.dataset.color || '').toLowerCase(); }
+    ).filter(Boolean);
+    function imgOwns(im) {
+      var owns = [];
+      var dc = (im.dataset.color || '');
+      if (dc) owns.push(dc);
+      var alt = (im.dataset.alt || '');
+      allColors.forEach(function (k) { if (k && alt.indexOf(k) !== -1 && owns.indexOf(k) === -1) owns.push(k); });
+      return owns;
+    }
+    function filterByColor(color, instant) {
+      var g = document.querySelector('[data-gallery]');
+      if (!g) return;
+      var imgs = g.querySelectorAll('.gallery-img');
+      var dots = document.querySelectorAll('.gallery-dot');
+      var c = (color || '').toLowerCase();
+      var first = -1;
+      imgs.forEach(function (im, i) {
+        var owns = imgOwns(im);
+        var show = owns.length === 0 || !c || owns.indexOf(c) !== -1;
+        im.style.display = show ? '' : 'none';
+        if (dots[i]) dots[i].style.display = show ? '' : 'none';
+        if (show && first === -1) first = i;
+      });
+      g.scrollTo({ top: 0, behavior: instant ? 'auto' : 'smooth' });
+      dots.forEach(function (d, i) { d.classList.toggle('active', i === first); });
+    }
     function update() {
       var v = match(selected()) || variants[0];
-      if (!v) return;
+      if (!v) return null;
       if (idInput) idInput.value = v.id;
       if (priceEl) priceEl.textContent = v.price;
       if (addBtn) {
         addBtn.disabled = !v.available;
         addBtn.textContent = v.available ? 'Add to bag' : 'Sold out';
       }
+      return v;
     }
     form.querySelectorAll('.color-swatch').forEach(function (b) {
       b.addEventListener('click', function () {
@@ -790,6 +820,7 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
         var cur = document.querySelector('[data-current-color]');
         if (cur) cur.textContent = '\u00b7 ' + b.dataset.color;
         update();
+        filterByColor(b.dataset.color);
       });
     });
     form.querySelectorAll('.size-btn').forEach(function (b) {
@@ -800,7 +831,15 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
         update();
       });
     });
+    if (form.querySelector('.color-swatch') && !form.querySelector('.color-swatch.active')) {
+      var firstSw = form.querySelector('.color-swatch:not([disabled])') || form.querySelector('.color-swatch');
+      firstSw.classList.add('active');
+      var cur0 = document.querySelector('[data-current-color]');
+      if (cur0) cur0.textContent = '\u00b7 ' + firstSw.dataset.color;
+    }
     update();
+    var activeSw = form.querySelector('.color-swatch.active');
+    filterByColor(activeSw ? activeSw.dataset.color : '', true);
   }
 
   // Recommendations carousel
@@ -825,6 +864,7 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
   var gal = document.querySelector('[data-gallery]');
   var dotsWrap = document.querySelector('[data-gallery-dots]');
   if (!gal || !dotsWrap) return;
+  var imgs = gal.querySelectorAll('.gallery-img');
   var dots = dotsWrap.querySelectorAll('.gallery-dot');
   if (!dots.length) return;
   var raf;
@@ -832,13 +872,18 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
     if (raf) return;
     raf = requestAnimationFrame(function () {
       raf = null;
-      var idx = Math.round(gal.scrollTop / gal.clientHeight);
-      dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+      var pos = gal.scrollTop, best = -1, bd = 1e9;
+      imgs.forEach(function (im, i) {
+        if (im.style.display === 'none') return;
+        var d = Math.abs(im.offsetTop - pos);
+        if (d < bd) { bd = d; best = i; }
+      });
+      dots.forEach(function (d, i) { d.classList.toggle('active', i === best); });
     });
   });
-  dots.forEach(function (d) {
+  dots.forEach(function (d, i) {
     d.addEventListener('click', function () {
-      gal.scrollTo({ top: parseInt(d.dataset.dot, 10) * gal.clientHeight, behavior: 'smooth' });
+      if (imgs[i]) gal.scrollTo({ top: imgs[i].offsetTop, behavior: 'smooth' });
     });
   });
 })();

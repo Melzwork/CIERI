@@ -17,8 +17,16 @@
   <div class="gallery-wrap">
     <div class="gallery" data-gallery>
       {%- if product.media.size > 0 -%}
+        {%- assign cidx = 0 -%}
+        {%- if color_opt -%}{%- assign cidx = color_opt.position | minus: 1 -%}{%- endif -%}
         {%- for m in product.media limit: 8 -%}
-          <div class="gallery-img" style="background-image:url({{ m | image_url: width: 1400 }});"></div>
+          {%- assign mcolor = '' -%}
+          {%- if color_opt -%}
+            {%- for v in product.variants -%}
+              {%- if v.featured_media.id == m.id -%}{%- assign mcolor = v.options[cidx] -%}{%- break -%}{%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          <div class="gallery-img" data-media-id="{{ m.id }}" data-color="{{ mcolor | downcase | strip | escape }}" data-alt="{{ m.alt | downcase | strip | escape }}" style="background-image:url({{ m | image_url: width: 1400 }});"></div>
         {%- endfor -%}
       {%- else -%}
         <div class="gallery-img gi-1"></div>
@@ -102,7 +110,7 @@
         <div class="shipping-note">Shipping calculated at checkout</div>
 
         <script type="application/json" data-variant-json>
-          {"variants":[{%- for v in product.variants -%}{"id":{{ v.id }},"available":{{ v.available }},"price":{{ v.price | money | json }},"option1":{{ v.option1 | json }},"option2":{{ v.option2 | json }},"option3":{{ v.option3 | json }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]}
+          {"variants":[{%- for v in product.variants -%}{"id":{{ v.id }},"available":{{ v.available }},"price":{{ v.price | money | json }},"option1":{{ v.option1 | json }},"option2":{{ v.option2 | json }},"option3":{{ v.option3 | json }},"media":{% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]}
         </script>
       </form>
 

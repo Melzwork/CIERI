@@ -3676,3 +3676,12 @@ body.template-page.template-suffix-about #MainContent,
   letter-spacing: -0.02em;
   color: var(--ink-muted);
 }
+
+/* collection card: name/price row + colour swatches */
+.col-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.col-meta .col-name { margin-bottom: 0; }
+.col-swatches { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.col-swatch {
+  width: 13px; height: 13px; border-radius: 50%; display: inline-block;
+  box-shadow: inset 0 0 0 1px rgba(19,24,43,0.10);
+}

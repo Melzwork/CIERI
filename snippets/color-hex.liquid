@@ -1,0 +1,27 @@
+{%- comment -%} Maps a colour option name to a CSS background value. Reused by collection cards (and available to the product page). {%- endcomment -%}
+{%- assign cl = name | downcase | strip -%}
+{%- case cl -%}
+  {%- when 'white' -%}#FFFFFF;box-shadow:inset 0 0 0 1px rgba(19,24,43,0.18)
+  {%- when 'black' -%}#0F0F0F
+  {%- when 'ink' -%}#13182B
+  {%- when 'taupe' -%}#B8A98F
+  {%- when 'oat' -%}#FFF5E5
+  {%- when 'espresso' -%}#5A3D2B
+  {%- when 'walnut' -%}#5A4632
+  {%- when 'pebble' -%}#DFDFDE
+  {%- when 'stone' -%}#D6CFC4
+  {%- when 'sand' -%}#E4D9C5
+  {%- when 'cream' -%}#F4EFE6
+  {%- when 'porcelain','ivory','bone' -%}#F6F3EC
+  {%- when 'charcoal' -%}#403F3F
+  {%- when 'grey','gray' -%}#9A9A98
+  {%- when 'alice blue' -%}#D8E4EE
+  {%- when 'navy' -%}#222C45
+  {%- when 'sage' -%}#B7BFA6
+  {%- when 'lemon','lemon chiffon' -%}#F5EFC8
+  {%- when 'blush','blush pink' -%}#FAE6E8
+  {%- when 'cherry','dark cherry' -%}#540D07
+  {%- when 'camel' -%}#C19A6B
+  {%- when 'olive' -%}#6B6A4B
+  {%- else -%}#DFDFDE
+{%- endcase -%}

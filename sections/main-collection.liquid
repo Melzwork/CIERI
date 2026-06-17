@@ -53,8 +53,24 @@
           {%- endif -%}
         </div>
         <div class="col-info">
-          <span class="col-name">{{ product.title }}</span>
-          <span class="col-price">{{ product.price | money }}</span>
+          <div class="col-meta">
+            <span class="col-name">{{ product.title }}</span>
+            <span class="col-price">{{ product.price | money }}</span>
+          </div>
+          {%- assign col_opt = null -%}
+          {%- for o in product.options_with_values -%}
+            {%- assign on = o.name | downcase -%}
+            {%- if on contains 'colour' or on contains 'color' -%}{%- assign col_opt = o -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if col_opt -%}
+            <div class="col-swatches">
+              {%- for v in col_opt.values -%}
+                {%- capture vn -%}{{ v }}{%- endcapture -%}
+                {%- capture hx -%}{%- render 'color-hex', name: vn -%}{%- endcapture -%}
+                <span class="col-swatch" style="background:{{ hx | strip }}" title="{{ vn | strip | escape }}"></span>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
         </div>
       </a>
     {%- else -%}
