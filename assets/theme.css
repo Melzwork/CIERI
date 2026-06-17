@@ -3044,20 +3044,21 @@ body.template-page.template-suffix-about #MainContent,
   .size-row {
     display: flex;
     gap: 6px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 
   .size-btn {
     flex: 1;
-    min-width: 56px;
-    padding: 12px 8px;
+    min-width: 0;
+    padding: 12px 4px;
     background: transparent;
     border: 1px solid var(--ink-faint);
     font-family: var(--sans);
-    font-size: 13px;
-    letter-spacing: -0.04em;
+    font-size: 12px;
+    letter-spacing: -0.02em;
     color: var(--ink);
     cursor: pointer;
+    white-space: nowrap;
     transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
   }
 
@@ -3469,7 +3470,7 @@ body.template-page.template-suffix-about #MainContent,
   }
 
 /* product page provides its own spacing */
-.template-product #MainContent { padding-top: 0; }
+body.template-product #MainContent { padding-top: 0; }
 
 
 /* ===== COLLECTION TOOLBAR + CARDS (faithful) ===== */

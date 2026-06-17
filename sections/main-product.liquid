@@ -19,27 +19,54 @@
       {%- if product.media.size > 0 -%}
         {%- assign cidx = 0 -%}
         {%- if color_opt -%}{%- assign cidx = color_opt.position | minus: 1 -%}{%- endif -%}
-        {%- for m in product.media limit: 8 -%}
-          {%- assign mcolor = '' -%}
-          {%- if color_opt -%}
-            {%- for v in product.variants -%}
-              {%- if v.featured_media.id == m.id -%}{%- assign mcolor = v.options[cidx] -%}{%- break -%}{%- endif -%}
-            {%- endfor -%}
-          {%- endif -%}
-          <div class="gallery-img" data-media-id="{{ m.id }}" data-color="{{ mcolor | downcase | strip | escape }}" data-alt="{{ m.alt | downcase | strip | escape }}" style="background-image:url({{ m | image_url: width: 1400 }});"></div>
-        {%- endfor -%}
+        {%- comment -%} collect the media ids that are assigned to a colour variant {%- endcomment -%}
+        {%- assign hero_ids = '' -%}
+        {%- if color_opt -%}
+          {%- for v in product.variants -%}
+            {%- if v.featured_media -%}{%- assign hero_ids = hero_ids | append: ',' | append: v.featured_media.id | append: ',' -%}{%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+        {%- if hero_ids != '' -%}
+          {%- assign dv = product.selected_or_first_available_variant -%}
+          {%- if dv.featured_media -%}{%- assign hero_url = dv.featured_media | image_url: width: 1400 -%}{%- else -%}{%- assign hero_url = product.featured_media | image_url: width: 1400 -%}{%- endif -%}
+          <div class="gallery-img" data-hero style="background-image:url({{ hero_url }});"></div>
+          {%- for m in product.media limit: 12 -%}
+            {%- assign midkey = ',' | append: m.id | append: ',' -%}
+            {%- unless hero_ids contains midkey -%}
+              <div class="gallery-img" data-media-id="{{ m.id }}" style="background-image:url({{ m | image_url: width: 1400 }});"></div>
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for m in product.media limit: 12 -%}
+            <div class="gallery-img" data-media-id="{{ m.id }}" style="background-image:url({{ m | image_url: width: 1400 }});"></div>
+          {%- endfor -%}
+        {%- endif -%}
       {%- else -%}
         <div class="gallery-img gi-1"></div>
         <div class="gallery-img gi-2"></div>
         <div class="gallery-img gi-3"></div>
       {%- endif -%}
     </div>
-    {%- if product.media.size > 1 -%}
-    <div class="gallery-dots" data-gallery-dots>
-      {%- for m in product.media limit: 8 -%}
-        <button type="button" class="gallery-dot{% if forloop.first %} active{% endif %}" data-dot="{{ forloop.index0 }}" aria-label="Image {{ forloop.index }}"></button>
+    {%- if color_opt -%}
+    <script type="application/json" data-hero-map>
+      {
+      {%- assign seen = '' -%}{%- assign firstk = true -%}
+      {%- for v in product.variants -%}
+        {%- if v.featured_media -%}
+          {%- assign cv = v.options[cidx] | downcase -%}
+          {%- assign key = '|' | append: cv | append: '|' -%}
+          {%- unless seen contains key -%}
+            {%- unless firstk -%},{%- endunless -%}{%- assign firstk = false -%}
+            {{ cv | json }}: {{ v.featured_media | image_url: width: 1400 | json }}
+            {%- assign seen = seen | append: key -%}
+          {%- endunless -%}
+        {%- endif -%}
       {%- endfor -%}
-    </div>
+      }
+    </script>
+    {%- endif -%}
+    {%- if product.media.size > 1 -%}
+    <div class="gallery-dots" data-gallery-dots></div>
     {%- endif -%}
   </div>
 

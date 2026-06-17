@@ -772,34 +772,17 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
         return Object.keys(sel).every(function (p) { return v['option' + p] === sel[p]; });
       });
     }
-    var allColors = Array.prototype.map.call(
-      form.querySelectorAll('.color-swatch'),
-      function (s) { return (s.dataset.color || '').toLowerCase(); }
-    ).filter(Boolean);
-    function imgOwns(im) {
-      var owns = [];
-      var dc = (im.dataset.color || '');
-      if (dc) owns.push(dc);
-      var alt = (im.dataset.alt || '');
-      allColors.forEach(function (k) { if (k && alt.indexOf(k) !== -1 && owns.indexOf(k) === -1) owns.push(k); });
-      return owns;
-    }
-    function filterByColor(color, instant) {
+    var heroMap = {};
+    var heroEl = document.querySelector('[data-hero]');
+    var heroJson = document.querySelector('[data-hero-map]');
+    if (heroJson) { try { heroMap = JSON.parse(heroJson.textContent) || {}; } catch (e) { heroMap = {}; } }
+    function setHero(color, instant) {
+      if (!heroEl) return;
+      var url = heroMap[(color || '').toLowerCase()];
+      if (!url) return;
+      heroEl.style.backgroundImage = 'url(' + url + ')';
       var g = document.querySelector('[data-gallery]');
-      if (!g) return;
-      var imgs = g.querySelectorAll('.gallery-img');
-      var dots = document.querySelectorAll('.gallery-dot');
-      var c = (color || '').toLowerCase();
-      var first = -1;
-      imgs.forEach(function (im, i) {
-        var owns = imgOwns(im);
-        var show = owns.length === 0 || !c || owns.indexOf(c) !== -1;
-        im.style.display = show ? '' : 'none';
-        if (dots[i]) dots[i].style.display = show ? '' : 'none';
-        if (show && first === -1) first = i;
-      });
-      g.scrollTo({ top: 0, behavior: instant ? 'auto' : 'smooth' });
-      dots.forEach(function (d, i) { d.classList.toggle('active', i === first); });
+      if (g) g.scrollTo({ top: 0, behavior: instant ? 'auto' : 'smooth' });
     }
     function update() {
       var v = match(selected()) || variants[0];
@@ -820,7 +803,7 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
         var cur = document.querySelector('[data-current-color]');
         if (cur) cur.textContent = '\u00b7 ' + b.dataset.color;
         update();
-        filterByColor(b.dataset.color);
+        setHero(b.dataset.color);
       });
     });
     form.querySelectorAll('.size-btn').forEach(function (b) {
@@ -839,7 +822,7 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
     }
     update();
     var activeSw = form.querySelector('.color-swatch.active');
-    filterByColor(activeSw ? activeSw.dataset.color : '', true);
+    setHero(activeSw ? activeSw.dataset.color : '', true);
   }
 
   // Recommendations carousel
@@ -865,8 +848,16 @@ document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
   var dotsWrap = document.querySelector('[data-gallery-dots]');
   if (!gal || !dotsWrap) return;
   var imgs = gal.querySelectorAll('.gallery-img');
+  if (imgs.length < 2) return;
+  dotsWrap.innerHTML = '';
+  imgs.forEach(function (_, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+    b.setAttribute('aria-label', 'Image ' + (i + 1));
+    dotsWrap.appendChild(b);
+  });
   var dots = dotsWrap.querySelectorAll('.gallery-dot');
-  if (!dots.length) return;
   var raf;
   gal.addEventListener('scroll', function () {
     if (raf) return;
