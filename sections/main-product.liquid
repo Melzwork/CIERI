@@ -153,7 +153,7 @@
           <button type="button" class="accordion-trigger"><span>Fabric &amp; Care</span><span class="accordion-icon">+</span></button>
           <div class="accordion-content"><div class="accordion-body">
             {%- assign fc = product.metafields.custom.fabric_care -%}
-            {%- if fc != blank -%}{%- if fc.type == 'rich_text_field' -%}{{ fc }}{%- else -%}{{ fc | newline_to_br }}{%- endif -%}{%- else -%}<p>Machine wash cold with like colours, or hand-wash. Lay flat away from direct sunlight to dry. Refer to the care label sewn into each garment.</p>{%- endif -%}
+            {%- if fc != blank -%}{{ fc | metafield_tag }}{%- else -%}<p>Machine wash cold with like colours, or hand-wash. Lay flat away from direct sunlight to dry. Refer to the care label sewn into each garment.</p>{%- endif -%}
           </div></div>
         </div>
         <div class="accordion-item">
@@ -161,7 +161,7 @@
           <div class="accordion-content"><div class="accordion-body">
             {%- assign sf = product.metafields.custom.sizing_fit -%}
             {%- if sf != blank -%}
-              {%- if sf.type == 'rich_text_field' -%}{{ sf }}{%- else -%}{{ sf | newline_to_br }}{%- endif -%}
+              {{ sf | metafield_tag }}
             {%- else -%}
               <p>Designed with a considered fit. If you are between sizes, size down for a closer fit. Full measurements are in our <a href="/pages/customer-care#sizing" style="border-bottom:1px solid currentColor;">size guide</a>.</p>
             {%- endif -%}

@@ -3198,6 +3198,15 @@ body.template-page.template-suffix-about #MainContent,
 
   .accordion-body {
     overflow: hidden;
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.7;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+
+  .accordion-body a {
+    border-bottom: 1px solid currentColor;
   }
 
   .accordion-body > * {
